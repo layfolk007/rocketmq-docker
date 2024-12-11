@@ -27,10 +27,6 @@ jobs:
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
 
-      # Runs a single command using the runners shell
-      - name: Run a one-line script
-        run: cd image-build && sh build-image-dashboard.sh ${{ env.VER }} centos && docker tag apache/rocketmq-dashboard:${{ env.VER }}-centos 0layfolk0/rocketmq-dashboard
-
       # Login against a Docker registry except on PR
       # https://github.com/docker/login-action
       - name: Log into registry ${{ env.REGISTRY }}
@@ -41,11 +37,6 @@ jobs:
           username: ${{ secrets.DK_USER }}
           password: ${{ secrets.DK_PASS }}
 
-      # Build and push Docker image with Buildx (don't push on PR)
-      # https://github.com/docker/build-push-action
-      - name: Build and push Docker image
-        id: build-and-push
-        uses: docker/build-push-action@v5
-        with:
-          push: ${{ github.event_name != 'pull_request' }}
-          tags: 0layfolk0/rocketmq-dashboard
+      # Runs a single command using the runners shell
+      - name: Run a one-line script
+        run: cd image-build && sh build-image-dashboard.sh ${{ env.VER }} centos && docker tag apache/rocketmq-dashboard:${{ env.VER }}-centos 0layfolk0/rocketmq-dashboard && docker push 0layfolk0/rocketmq-dashboard
