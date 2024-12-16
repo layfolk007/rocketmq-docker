@@ -93,4 +93,4 @@ RUN yum remove wget unzip openssl -y
 
 RUN chown -R ${uid}:${gid} ${ROCKETMQ_DASHBOARD_HOME}
 EXPOSE 8080
-ENTRYPOINT ["java", "$JAVA_OPTS", "-jar", "bin/rocketmq-dashboard.jar"];
+ENTRYPOINT ["/bin/sh", "-c", "java $JAVA_OPTS -jar bin/rocketmq-dashboard.jar"];
